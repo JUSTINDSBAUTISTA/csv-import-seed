@@ -1,0 +1,32 @@
+<p style="color: green"> <%= notice %> </p>
+
+<%= form_with url: import_trends_path, method: :post do |form| %>
+  <%= form.file_field :file, accept: ".csv" %>
+  <%= form.button "Import" %>
+<% end %>
+
+<h1>
+  Trends count:
+  <%= @trends.count %>
+</h1>
+
+<% unless @trends.empty? %>
+  <div class="container mt-3">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>idTag</th>
+          <th>tag</th>
+          <th>idType</th>
+          <th>tagType</th>
+          <th>articles</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @trends.each do |trend| %>
+          <%= render trend %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>

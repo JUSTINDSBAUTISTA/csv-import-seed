@@ -1,15 +1,17 @@
-<div class="container m-3">
+<div style="text-align: center">
   <p style="color: green"> <%= notice %> </p>
+
+  <h1>
+    Trends count:
+    <%= @trends.count %>
+  </h1>
 
   <%= form_with url: import_trends_path, method: :post do |form| %>
     <%= form.file_field :file, accept: ".csv" %>
     <%= form.button "import" %>
   <% end %>
-</div>
 
-<h1 style="text-align: center">
-  Trends count:
-  <%= @trends.count %>
-</h1>
+
+</div>
 
 <%= render 'trend' %>

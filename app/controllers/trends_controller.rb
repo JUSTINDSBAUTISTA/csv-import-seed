@@ -2,7 +2,7 @@ class TrendsController < ApplicationController
   require 'csv'
 
   def index
-    @trends = Trend.limit(20)
+    @trends = Trend.limit(100)
   end
 
   def import

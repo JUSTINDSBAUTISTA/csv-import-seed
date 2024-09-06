@@ -1,7 +1,29 @@
-<tr>
-  <td><%= trend.idTag %></td>
-  <td><%= trend.tag %></td>
-  <td><%= trend.idType %></td>
-  <td><%= trend.tagType %></td>
-  <td><%= trend.articles %></td>
-</tr>
+
+<% if @trends.any? %>
+  <div class="container mt-3">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>idTag</th>
+          <th>tag</th>
+          <th>idType</th>
+          <th>tagType</th>
+          <th>articles</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @trends.each do |trend| %>
+          <tr>
+            <td><%= trend.idTag %></td>
+            <td><%= trend.tag %></td>
+            <td><%= trend.idType %></td>
+            <td><%= trend.tagType %></td>
+            <td><%= trend.articles %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <p>No trends available. Please upload a CSV file.</p>
+<% end %>

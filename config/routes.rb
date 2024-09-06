@@ -1,8 +1,7 @@
 Rails.application.routes.draw do
-  root to: redirect('/trends')
-  resources :trends do
-    collection do
-      post :import
-    end
+  resources :trends, only: [:index] do
+    collection { post :import }
   end
+
+  root "trends#index"
 end

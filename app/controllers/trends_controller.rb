@@ -1,30 +1,30 @@
 class TrendsController < ApplicationController
   require 'csv'
 
-  def import
-    file = params[:file]
-    return redirect_to trends_path, notice: 'Only CSV file is allowed' unless file.content_type == "text/csv"
-
-    file = File.open(file)
-    csv = CSV.parse(file, headers: true)
-    csv.each do |row|
-      trend_hash = {
-        idTag: row['idTag'],
-        tag: row['tag'],
-        idType: row['idType'],
-        tagType: row['tagType'],
-        articles: row['articles']
-      }
-      Trend.create(trend_hash)
-
-      binding.b
-      p row
-    end
-
-    redirect_to trends_path, notice: 'File imported successfully'
-  end
-
   def index
     @trends = Trend.limit(20)
+  end
+
+  def import
+    file = params[:file]
+    return redirect_to trends_path, notice: "Please select a file" unless file.present? && file.content_type == 'text/csv'
+
+    file_content = File.open(file, "r:ISO-8859-1")
+    csv = CSV.parse(file_content, headers: true)
+
+    Trend.transaction do
+      # Limiting row count to 20
+      csv.first(20).each do |row|
+        trends_hash = {
+          idTag: row['idTag'],
+          tag: row['tag'],
+          idType: row['idType'],
+          tagType: row['tagType'],
+          articles: row['articles']
+        }
+        Trend.create!(trends_hash)
+      end
+    end
+    redirect_to trends_path, notice: "Trends imported successfully"
   end
 end
